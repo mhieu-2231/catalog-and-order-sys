@@ -1,0 +1,28 @@
+@model Catalog_And_Order_Sys.Models.Category
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Sửa danh mục";
+}
+
+<div class="row">
+    <div class="col-lg-6">
+        <form asp-action="Edit" method="post">
+            <input type="hidden" asp-for="CategoryId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label>Tên danh mục</label>
+                <input asp-for="CategoryName" class="form-control" />
+                <span asp-validation-for="CategoryName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Slug (tuỳ chọn)</label>
+                <input asp-for="Slug" class="form-control" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Cập nhật</button>
+            <a asp-action="Index" class="btn btn-default">Hủy</a>
+        </form>
+    </div>
+</div>

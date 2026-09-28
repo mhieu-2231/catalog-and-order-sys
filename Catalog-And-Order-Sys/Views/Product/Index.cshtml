@@ -1,0 +1,64 @@
+@model IEnumerable<Catalog_And_Order_Sys.Models.Product>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Quản lý sản phẩm";
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <a asp-action="Create" class="btn btn-primary" style="margin-bottom:15px;">
+            <i class="fa fa-plus"></i> Thêm sản phẩm
+        </a>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th style="width:80px;">Ảnh</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Danh mục</th>
+                    <th>Giá</th>
+                    <th>Tồn kho</th>
+                    <th style="width:160px;">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.ImageUrl))
+                            {
+                                <img src="@item.ImageUrl" alt="@item.ProductName" style="width:60px;height:60px;object-fit:cover;" />
+                            }
+                            else
+                            {
+                                <span class="text-muted">(chưa có)</span>
+                            }
+                        </td>
+                        <td>@item.ProductName</td>
+                        <td>@item.Category?.CategoryName</td>
+                        <td>@item.Price.ToString("N0") đ</td>
+                        <td>@item.Quantity</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ProductId" class="btn btn-xs btn-warning">
+                                <i class="fa fa-pencil"></i> Sửa
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.ProductId" class="btn btn-xs btn-danger">
+                                <i class="fa fa-trash"></i> Xóa
+                            </a>
+                        </td>
+                    </tr>
+                }
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="6" class="text-center">Chưa có sản phẩm nào.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

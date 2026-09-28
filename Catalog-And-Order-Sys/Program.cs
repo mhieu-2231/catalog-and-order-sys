@@ -1,4 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using Catalog_And_Order_Sys.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Đăng ký ApplicationDbContext vào Dependency Injection (DI)
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

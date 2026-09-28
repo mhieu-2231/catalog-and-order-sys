@@ -1,0 +1,55 @@
+@model IEnumerable<Catalog_And_Order_Sys.Models.Category>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Quản lý danh mục";
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <a asp-action="Create" class="btn btn-primary mb-15" style="margin-bottom:15px;">
+            <i class="fa fa-plus"></i> Thêm danh mục
+        </a>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th style="width:60px;">#</th>
+                    <th>Tên danh mục</th>
+                    <th>Ngày tạo</th>
+                    <th style="width:160px;">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.CategoryId</td>
+                        <td>@item.CategoryName</td>
+                        <td>@item.CreatedAt.ToString("dd/MM/yyyy")</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.CategoryId" class="btn btn-xs btn-warning">
+                                <i class="fa fa-pencil"></i> Sửa
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.CategoryId" class="btn btn-xs btn-danger">
+                                <i class="fa fa-trash"></i> Xóa
+                            </a>
+                        </td>
+                    </tr>
+                }
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="4" class="text-center">Chưa có danh mục nào.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

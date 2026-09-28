@@ -1,0 +1,20 @@
+@model Catalog_And_Order_Sys.Models.Product
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Xóa sản phẩm";
+}
+
+<div class="row">
+    <div class="col-lg-6">
+        <p>Bạn có chắc muốn xóa sản phẩm <strong>@Model.ProductName</strong> không?</p>
+        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <img src="@Model.ImageUrl" style="width:100px;height:100px;object-fit:cover;" />
+        }
+        <form asp-action="Delete" method="post">
+            <input type="hidden" asp-for="ProductId" />
+            <button type="submit" class="btn btn-danger">Xác nhận xóa</button>
+            <a asp-action="Index" class="btn btn-default">Hủy</a>
+        </form>
+    </div>
+</div>

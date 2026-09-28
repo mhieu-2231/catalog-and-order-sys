@@ -1,0 +1,59 @@
+@model Catalog_And_Order_Sys.Models.Product
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Thêm sản phẩm";
+    var categories = ViewBag.Categories as IEnumerable<Catalog_And_Order_Sys.Models.Category>;
+}
+
+<div class="row">
+    <div class="col-lg-6">
+        <!-- LƯU Ý: bắt buộc enctype="multipart/form-data" để truyền được file ảnh -->
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label>Tên sản phẩm</label>
+                <input asp-for="ProductName" class="form-control" />
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Mô tả</label>
+                <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Giá bán</label>
+                <input asp-for="Price" type="number" step="1000" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Số lượng tồn kho</label>
+                <input asp-for="Quantity" type="number" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Danh mục</label>
+                <select asp-for="CategoryId" class="form-control">
+                    <option value="">-- Chọn danh mục --</option>
+                    @if (categories != null)
+                    {
+                        foreach (var c in categories)
+                        {
+                            <option value="@c.CategoryId">@c.CategoryName</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Hình ảnh sản phẩm</label>
+                <input type="file" name="ImageFile" class="form-control" accept="image/*" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Lưu</button>
+            <a asp-action="Index" class="btn btn-default">Hủy</a>
+        </form>
+    </div>
+</div>
