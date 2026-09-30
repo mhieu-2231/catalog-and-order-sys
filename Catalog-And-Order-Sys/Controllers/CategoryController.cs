@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Catalog_And_Order_Sys.Data;
 using Catalog_And_Order_Sys.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Catalog_And_Order_Sys.Controllers
 {
@@ -15,6 +16,7 @@ namespace Catalog_And_Order_Sys.Controllers
         }
 
         // GET: /Category
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             // HasQueryFilter trong DbContext đã tự động lọc IsDeleted = false
@@ -25,12 +27,14 @@ namespace Catalog_And_Order_Sys.Controllers
         }
 
         // GET: /Category/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
         // POST: /Category/Create
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Category category)
@@ -54,6 +58,7 @@ namespace Catalog_And_Order_Sys.Controllers
         }
 
         // GET: /Category/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             var category = await _context.Categories.FindAsync(id);
@@ -62,6 +67,7 @@ namespace Catalog_And_Order_Sys.Controllers
         }
 
         // POST: /Category/Edit/5
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Category input)
@@ -86,6 +92,7 @@ namespace Catalog_And_Order_Sys.Controllers
         }
 
         // GET: /Category/Delete/5  (trang xác nhận)
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var category = await _context.Categories.FindAsync(id);
@@ -94,6 +101,7 @@ namespace Catalog_And_Order_Sys.Controllers
         }
 
         // POST: /Category/Delete/5  (XÓA MỀM — không gọi _context.Categories.Remove())
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

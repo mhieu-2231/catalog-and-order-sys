@@ -1,25 +1,27 @@
-using Catalog_And_Order_Sys.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
+using Catalog_And_Order_Sys.Data;
 
 namespace Catalog_And_Order_Sys.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly ApplicationDbContext _context;
+        public HomeController(ApplicationDbContext context) => _context = context;
+
+        public async Task<IActionResult> Index()
         {
-            return View();
+            // Trang chủ chỉ đọc dữ liệu (Read-only) -> dùng AsNoTracking() để tối ưu (lab17)
+            var newArrivals = await _context.Products
+                .Include(p => p.Category)
+                .AsNoTracking()
+                .OrderByDescending(p => p.CreatedAt)
+                .Take(6)
+                .ToListAsync();
+
+            return View(newArrivals);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        // Giữ nguyên các action Privacy/Error đã có sẵn từ project mặc định
     }
 }

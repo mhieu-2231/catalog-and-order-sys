@@ -51,8 +51,15 @@
                         <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a></li>
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
                         <li class="divider"></li>
-                        <li><a asp-controller="Account" asp-action="Logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                        <li>
+                            <form asp-controller="Account" asp-action="Logout" method="post" style="margin:0;">
+                                <button type="submit" class="btn btn-link" style="padding:3px 20px;width:100%;text-align:left;">
+                                    <i class="fa fa-sign-out fa-fw"></i> Logout
+                                </button>
+                            </form>
+                        </li>
                     </ul>
+
                 </li>
             </ul>
         </nav>
