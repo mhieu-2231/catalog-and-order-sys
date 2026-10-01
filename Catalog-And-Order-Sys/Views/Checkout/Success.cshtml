@@ -1,0 +1,13 @@
+@model Catalog_And_Order_Sys.Models.Order
+@{
+    ViewData["Title"] = "Đặt hàng thành công";
+}
+
+<div class="container text-center" style="padding:100px 0;">
+    <i class="fa fa-check-circle" style="font-size:64px;color:green;"></i>
+    <h2>Đặt hàng thành công!</h2>
+    <p>Mã đơn hàng của bạn: <strong>#@Model.OrderId</strong></p>
+    <p>Tổng tiền: <strong>@Model.TotalAmount.ToString("N0") đ</strong></p>
+    <p>Chúng tôi sẽ liên hệ với bạn qua số điện thoại <strong>@Model.PhoneNumber</strong> để xác nhận đơn hàng.</p>
+    <a asp-controller="Home" asp-action="Index" class="btn karl-checkout-btn">Về trang chủ</a>
+</div>

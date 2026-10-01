@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Catalog_And_Order_Sys.Data;
+﻿using Catalog_And_Order_Sys.Data;
 using Catalog_And_Order_Sys.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Catalog_And_Order_Sys.Controllers
 {
@@ -19,6 +20,7 @@ namespace Catalog_And_Order_Sys.Controllers
         }
 
         // GET: /Product
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var products = await _context.Products
@@ -29,6 +31,7 @@ namespace Catalog_And_Order_Sys.Controllers
         }
 
         // GET: /Product/Create
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create()
         {
             ViewBag.Categories = await _context.Categories.ToListAsync();
@@ -36,6 +39,7 @@ namespace Catalog_And_Order_Sys.Controllers
         }
 
         // POST: /Product/Create
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product, IFormFile? ImageFile)
@@ -80,6 +84,7 @@ namespace Catalog_And_Order_Sys.Controllers
         }
 
         // GET: /Product/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id)
         {
             var product = await _context.Products.FindAsync(id);
@@ -90,6 +95,7 @@ namespace Catalog_And_Order_Sys.Controllers
         }
 
         // POST: /Product/Edit/5
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Product input, IFormFile? ImageFile)
@@ -139,6 +145,7 @@ namespace Catalog_And_Order_Sys.Controllers
         }
 
         // GET: /Product/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var product = await _context.Products.Include(p => p.Category)
@@ -148,6 +155,7 @@ namespace Catalog_And_Order_Sys.Controllers
         }
 
         // POST: /Product/Delete/5  (XÓA MỀM)
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -208,5 +216,6 @@ namespace Catalog_And_Order_Sys.Controllers
 
             return View(product);
         }
+
     }
 }

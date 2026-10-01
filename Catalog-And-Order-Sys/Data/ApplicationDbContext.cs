@@ -4,7 +4,7 @@ using Catalog_And_Order_Sys.Models;
 
 namespace Catalog_And_Order_Sys.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+        public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
@@ -94,7 +94,8 @@ namespace Catalog_And_Order_Sys.Data
                 entity.HasOne(od => od.Product)
                       .WithMany(p => p.OrderDetails)
                       .HasForeignKey(od => od.ProductId)
-                      .OnDelete(DeleteBehavior.Restrict); // không cho xóa cứng Product đã có đơn hàng
+                      .OnDelete(DeleteBehavior.Restrict) // không cho xóa cứng Product đã có đơn hàng
+                      .IsRequired();
             });
         }
     }

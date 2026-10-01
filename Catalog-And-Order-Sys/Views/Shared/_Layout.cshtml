@@ -132,16 +132,16 @@
                                                 <a href="#" class="image"><img src="img/product-img/product-11.jpg" class="cart-thumb" alt=""></a>
                                                 <div class="cart-item-desc">
                                                     <h6><a href="#">Women's Fashion</a></h6>
-                                                    <p>1x - <span class="price">$10</span></p>
-                                                </div>
-                                                <span class="dropdown-product-remove"><i class="icon-cross"></i></span>
-                                            </li>
-                                            <li class="total">
-                                                <span class="pull-right">Total: $20.00</span>
-                                                <a href="cart.html" class="btn btn-sm btn-cart">Cart</a>
-                                                <a href="checkout-1.html" class="btn btn-sm btn-checkout">Checkout</a>
-                                            </li>
-                                        </ul>
+                                                                <p>1x - <span class="price">$10</span></p>
+                                                            </div>
+                                                            <span class="dropdown-product-remove"><i class="icon-cross"></i></span>
+                                                        </li>
+                                                        <li class="total">
+                                                            <span class="pull-right">Total: $20.00</span>
+                                                            <a asp-controller="Cart" asp-action="Index" class="btn btn-sm btn-cart">Cart</a>
+                                                            <a asp-controller="Checkout" asp-action="Index" class="btn btn-sm btn-checkout">Checkout</a>
+                                                        </li>
+                                                    </ul>
                                     </div>
                                     <div class="header-right-side-menu ml-15">
                                         <a href="#" id="sideMenuBtn"><i class="ti-menu" aria-hidden="true"></i></a>
@@ -174,15 +174,15 @@
 
                                     <div class="collapse navbar-collapse align-items-start collapse" id="karl-navbar">
                                         <ul class="navbar-nav animated" id="nav">
-                                            <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
+                                            <li class="nav-item active"><a class="nav-link" asp-controller="Home" asp-action="Index">Home</a></li>
                                             <li class="nav-item dropdown">
                                                 <a class="nav-link dropdown-toggle" href="#" id="karlDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages</a>
                                                 <div class="dropdown-menu" aria-labelledby="karlDropdown">
-                                                    <a class="dropdown-item" href="index.html">Home</a>
-                                                    <a class="dropdown-item" href="shop.html">Shop</a>
-                                                    <a class="dropdown-item" href="product-details.html">Product Details</a>
-                                                    <a class="dropdown-item" href="cart.html">Cart</a>
-                                                    <a class="dropdown-item" href="checkout.html">Checkout</a>
+                                                    <a class="dropdown-item" asp-controller="Home" asp-action="Index">Home</a>
+                                                    <a class="dropdown-item" asp-controller="Shop" asp-action="Index">Shop</a>
+                                                    <a class="dropdown-item" asp-controller="Product" asp-action="Details">Product Details</a>
+                                                    <a class="dropdown-item" asp-controller="Cart" asp-action="Index">Cart</a>
+                                                    <a class="dropdown-item" asp-controller="Checkout" asp-action="Index">Checkout</a>
                                                 </div>
                                             </li>
                                             <li class="nav-item"><a class="nav-link" href="#">Dresses</a></li>

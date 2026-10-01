@@ -1,0 +1,60 @@
+@model IEnumerable<Catalog_And_Order_Sys.Models.Order>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Quản lý đơn hàng";
+    string? selectedStatus = ViewBag.SelectedStatus;
+    var statuses = new[] { "Chờ xử lý", "Đang giao", "Hoàn thành", "Đã hủy" };
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div style="margin-bottom:15px;">
+            <a asp-action="Index" class="btn btn-xs @(selectedStatus == null ? "btn-primary" : "btn-default")">Tất cả</a>
+            @foreach (var s in statuses)
+            {
+                <a asp-action="Index" asp-route-status="@s" class="btn btn-xs @(selectedStatus == s ? "btn-primary" : "btn-default")">@s</a>
+            }
+        </div>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Khách hàng</th>
+                    <th>SĐT</th>
+                    <th>Tổng tiền</th>
+                    <th>Trạng thái</th>
+                    <th>Ngày đặt</th>
+                    <th style="width:100px;">Chi tiết</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.OrderId</td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.PhoneNumber</td>
+                        <td>@item.TotalAmount.ToString("N0") đ</td>
+                        <td>
+                            <span class="label @(item.Status == "Hoàn thành" ? "label-success" : item.Status == "Đã hủy" ? "label-danger" : "label-warning")">
+                                @item.Status
+                            </span>
+                        </td>
+                        <td>@item.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td><a asp-action="Details" asp-route-id="@item.OrderId" class="btn btn-xs btn-info">Xem</a></td>
+                    </tr>
+                }
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="7" class="text-center">Chưa có đơn hàng nào.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

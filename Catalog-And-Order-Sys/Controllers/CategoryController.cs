@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Catalog_And_Order_Sys.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _context;

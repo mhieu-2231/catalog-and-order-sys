@@ -28,9 +28,18 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 
-
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDistributedMemoryCache(); // Nơi lưu dữ liệu Session tạm trong RAM server
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Giỏ hàng tự xóa nếu không hoạt động 30 phút
+    options.Cookie.HttpOnly = true;                  // Chặn JavaScript đọc Cookie Session -> an toàn hơn
+    options.Cookie.IsEssential = true;                // Cho phép hoạt động dù người dùng từ chối Cookie không thiết yếu
+});
+
+
 
 var app = builder.Build();
 
@@ -44,6 +53,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+
+app.UseSession();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -85,6 +97,7 @@ using (var scope = app.Services.CreateScope())
         }
     }
 }
+
 
 
 app.Run();
