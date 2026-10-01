@@ -24,7 +24,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Account/Login";
-    options.AccessDeniedPath = "/Account/Login";
+    options.AccessDeniedPath = "/";
 });
 
 
@@ -95,6 +95,10 @@ using (var scope = app.Services.CreateScope())
         {
             await userManager.AddToRoleAsync(admin, "Admin");
         }
+    }
+    if (!await roleManager.RoleExistsAsync("Customer"))
+    {
+        await roleManager.CreateAsync(new IdentityRole("Customer"));
     }
 }
 

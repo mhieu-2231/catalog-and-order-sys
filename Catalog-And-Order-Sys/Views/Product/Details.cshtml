@@ -7,14 +7,14 @@
     <div class="row">
         <div class="col-12">
             <ol class="breadcrumb d-flex align-items-center">
-                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
                 <li class="breadcrumb-item">
                     <a asp-controller="Shop" asp-action="Index" asp-route-categoryId="@Model.CategoryId">@Model.Category?.CategoryName</a>
                 </li>
                 <li class="breadcrumb-item active">@Model.ProductName</li>
             </ol>
             <a asp-controller="Shop" asp-action="Index" class="backToHome d-block">
-                <i class="fa fa-angle-double-left"></i> Back to Category
+                <i class="fa fa-angle-double-left"></i> Quay lại danh sách
             </a>
         </div>
     </div>
@@ -25,14 +25,7 @@
         <div class="row">
             <div class="col-12 col-md-6">
                 <div class="single_product_thumb">
-                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
-                    {
-                        <img class="d-block w-100" src="@Model.ImageUrl" alt="@Model.ProductName">
-                    }
-                    else
-                    {
-                        <img class="d-block w-100" src="/img/product-img/product-9.jpg" alt="@Model.ProductName">
-                    }
+                    <img class="d-block w-100" src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "/img/product-img/product-9.jpg" : Model.ImageUrl)" alt="@Model.ProductName">
                 </div>
             </div>
 
@@ -40,38 +33,27 @@
                 <div class="single_product_desc">
                     <h4 class="title">@Model.ProductName</h4>
                     <h4 class="price">@Model.Price.ToString("N0") đ</h4>
-
                     <p class="available">
-                        Available:
-                        <span class="text-muted">
-                            @(Model.Quantity > 0 ? $"Còn {Model.Quantity} sản phẩm" : "Hết hàng")
-                        </span>
+                        Tình trạng:
+                        <span class="text-muted">@(Model.Quantity > 0 ? $"Còn {Model.Quantity} sản phẩm" : "Hết hàng")</span>
                     </p>
 
-                    <!-- Add to Cart Form -->
-                    <form asp-controller="Cart" asp-action="Add" method="post" class="cart clearfix mb-50 d-flex">
-                        <input type="hidden" name="productId" value="@Model.ProductId" />
-                        <div class="quantity">
-                            <span class="qty-minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
-                            <input type="number" class="qty-text" id="qty" name="quantity" step="1" min="1" max="@Model.Quantity" value="1">
-                            <span class="qty-plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
-                        </div>
-                        <button type="submit" class="btn cart-submit d-block">Add to cart</button>
-                    </form>
+                    @if (Model.Quantity > 0)
+                    {
+                        <form asp-controller="Cart" asp-action="Add" method="post" class="cart clearfix mb-50 d-flex">
+                            <input type="hidden" name="productId" value="@Model.ProductId" />
+                            <div class="quantity">
+                                <span class="qty-minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
+                                <input type="number" class="qty-text" id="qty" name="quantity" step="1" min="1" max="@Model.Quantity" value="1">
+                                <span class="qty-plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                            </div>
+                            <button type="submit" class="btn cart-submit d-block">Thêm vào giỏ</button>
+                        </form>
+                    }
 
-                    <div id="accordion" role="tablist">
-                        <div class="card">
-                            <div class="card-header" role="tab" id="headingOne">
-                                <h6 class="mb-0">
-                                    <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Information</a>
-                                </h6>
-                            </div>
-                            <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-                                <div class="card-body">
-                                    <p>@Model.Description</p>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="phone-desc">
+                        <h6>Thông tin sản phẩm</h6>
+                        <p>@Model.Description</p>
                     </div>
                 </div>
             </div>

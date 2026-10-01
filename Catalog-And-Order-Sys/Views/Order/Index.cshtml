@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Catalog_And_Order_Sys.Models.Order>
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Quản lý đơn hàng";
+}
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Mã đơn</th>
+                    <th>Khách hàng</th>
+                    <th>Số điện thoại</th>
+                    <th>Địa chỉ</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var o in Model)
+                {
+                    <tr>
+                        <td>#@o.OrderId</td>
+                        <td>@o.CustomerName</td>
+                        <td>@o.PhoneNumber</td>
+                        <td>@o.Address</td>
+                    </tr>
+                }
+                @if (!Model.Any())
+                {
+                    <tr><td colspan="4" class="text-center">Chưa có đơn hàng nào.</td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

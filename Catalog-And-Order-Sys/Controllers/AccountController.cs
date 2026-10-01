@@ -16,6 +16,7 @@ namespace Catalog_And_Order_Sys.Controllers
         }
 
         // GET: /Account/Login
+        [HttpGet]
         public IActionResult Login(string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
@@ -33,7 +34,6 @@ namespace Catalog_And_Order_Sys.Controllers
                 return View();
             }
 
-            // PasswordSignInAsync: kiểm tra mật khẩu + tự động ghi Cookie xác thực nếu đúng
             var result = await _signInManager.PasswordSignInAsync(email, password, isPersistent: false, lockoutOnFailure: false);
 
             if (result.Succeeded)
@@ -42,11 +42,56 @@ namespace Catalog_And_Order_Sys.Controllers
                 {
                     return Redirect(returnUrl);
                 }
-                return RedirectToAction("Index", "Category"); // vào thẳng trang Admin
+
+                var user = await _userManager.FindByEmailAsync(email);
+                if (user != null && await _userManager.IsInRoleAsync(user, "Admin"))
+                {
+                    return RedirectToAction("Index", "Category"); // Admin vào trang quản trị
+                }
+
+                return RedirectToAction("Index", "Home"); // Khách về trang chủ
             }
 
             ModelState.AddModelError("", "Sai email hoặc mật khẩu.");
             return View();
+        }
+
+        // GET: /Account/Register
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        // POST: /Account/Register
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(string fullName, string email, string password, string confirmPassword)
+        {
+            if (string.IsNullOrWhiteSpace(fullName) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+            {
+                ModelState.AddModelError("", "Vui lòng nhập đầy đủ thông tin.");
+                return View();
+            }
+            if (password != confirmPassword)
+            {
+                ModelState.AddModelError("", "Mật khẩu nhập lại không khớp.");
+                return View();
+            }
+
+            var user = new ApplicationUser { UserName = email, Email = email, FullName = fullName };
+            var result = await _userManager.CreateAsync(user, password);
+
+            if (!result.Succeeded)
+            {
+                foreach (var e in result.Errors)
+                    ModelState.AddModelError("", e.Description);
+                return View();
+            }
+
+            await _userManager.AddToRoleAsync(user, "Customer");
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: /Account/Logout

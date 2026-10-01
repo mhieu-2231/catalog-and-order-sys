@@ -1,55 +1,35 @@
 @model Catalog_And_Order_Sys.Models.Order
 @{
-    ViewData["Title"] = "Checkout";
+    ViewData["Title"] = "Đặt hàng";
     var cart = ViewBag.Cart as List<Catalog_And_Order_Sys.Models.CartItem>;
     decimal total = ViewBag.Total;
 }
 
-        <section class="top-discount-area d-md-flex align-items-center">
-            <!-- Single Discount Area -->
-            <div class="single-discount-area">
-                <h5>Free Shipping &amp; Returns</h5>
-                <h6><a href="#">BUY NOW</a></h6>
-            </div>
-            <!-- Single Discount Area -->
-            <div class="single-discount-area">
-                <h5>20% Discount for all dresses</h5>
-                <h6>USE CODE: Colorlib</h6>
-            </div>
-            <!-- Single Discount Area -->
-            <div class="single-discount-area">
-                <h5>20% Discount for students</h5>
-                <h6>USE CODE: Colorlib</h6>
-            </div>
-        </section>
-
 <div class="checkout_area section_padding_100 clearfix">
     <div class="container">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
         <form asp-controller="Checkout" asp-action="Index" method="post">
             <div class="row">
                 <div class="col-12 col-lg-7">
                     <div class="billing_details_area">
-                        <h4>Thông tin đặt hàng</h4>
-
+                        <h4>Thông tin nhận hàng</h4>
                         <div class="form-group">
-                            <label>Họ tên</label>
+                            <label asp-for="CustomerName">Họ tên</label>
                             <input asp-for="CustomerName" class="form-control" placeholder="Nguyễn Văn A" />
+                            <span asp-validation-for="CustomerName" class="text-danger"></span>
                         </div>
-
                         <div class="form-group">
-                            <label>Số điện thoại</label>
+                            <label asp-for="PhoneNumber">Số điện thoại</label>
                             <input asp-for="PhoneNumber" class="form-control" placeholder="09xxxxxxxx" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                         </div>
-
                         <div class="form-group">
-                            <label>Địa chỉ giao hàng</label>
+                            <label asp-for="Address">Địa chỉ giao hàng</label>
                             <input asp-for="Address" class="form-control" placeholder="Số nhà, đường, quận/huyện, tỉnh/thành" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
                         </div>
-
                         <div class="form-group">
-                            <label>Ghi chú (tuỳ chọn)</label>
+                            <label asp-for="Note">Ghi chú (tuỳ chọn)</label>
                             <textarea asp-for="Note" class="form-control" rows="3"></textarea>
                         </div>
                     </div>
@@ -82,7 +62,6 @@
                                 </tr>
                             </tfoot>
                         </table>
-
                         <button type="submit" class="btn karl-checkout-btn d-block">Đặt hàng</button>
                     </div>
                 </div>

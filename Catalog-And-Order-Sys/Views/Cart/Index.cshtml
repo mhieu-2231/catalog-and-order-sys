@@ -1,27 +1,10 @@
 @model List<Catalog_And_Order_Sys.Models.CartItem>
 @using System.Linq
-@* ViewData["Title"] đã được set ở Views/Cart/_ViewStart.cshtml hoặc set ở đây cũng được *@
 @{
     ViewData["Title"] = "Giỏ hàng";
+    decimal total = Model.Sum(i => i.TotalPrice);
 }
 
-<!-- ****** Top Discount Area Start ****** -->
-<section class="top-discount-area d-md-flex align-items-center">
-    <div class="single-discount-area">
-        <h5>Free Shipping &amp; Returns</h5>
-        <h6><a href="#">BUY NOW</a></h6>
-    </div>
-    <div class="single-discount-area">
-        <h5>20% Discount for all dresses</h5>
-        <h6>USE CODE: Colorlib</h6>
-    </div>
-    <div class="single-discount-area">
-        <h5>20% Discount for students</h5>
-        <h6>USE CODE: Colorlib</h6>
-    </div>
-</section>
-<!-- ****** Top Discount Area End ****** -->
-<!-- ****** Cart Area Start ****** -->
 <div class="cart_area section_padding_100 clearfix">
     <div class="container">
         <div class="row">
@@ -30,10 +13,10 @@
                     <table class="table table-responsive">
                         <thead>
                             <tr>
-                                <th>Product</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Total</th>
+                                <th>Sản phẩm</th>
+                                <th>Đơn giá</th>
+                                <th>Số lượng</th>
+                                <th>Thành tiền</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -60,7 +43,7 @@
                                     </td>
                                     <td class="total_price"><span>@item.TotalPrice.ToString("N0") đ</span></td>
                                     <td>
-                                        <a asp-controller="Cart" asp-action="Remove" asp-route-id="@item.ProductId">
+                                        <a asp-controller="Cart" asp-action="Remove" asp-route-id="@item.ProductId" title="Xóa">
                                             <i class="fa fa-trash"></i>
                                         </a>
                                     </td>
@@ -76,10 +59,10 @@
 
                 <div class="cart-footer d-flex mt-30">
                     <div class="back-to-shop w-50">
-                        <a asp-controller="Shop" asp-action="Index">Continue shopping</a>
+                        <a asp-controller="Shop" asp-action="Index">Tiếp tục mua sắm</a>
                     </div>
                     <div class="update-checkout w-50 text-right">
-                        <a asp-controller="Cart" asp-action="Clear">Clear cart</a>
+                        <a asp-controller="Cart" asp-action="Clear">Xóa giỏ hàng</a>
                     </div>
                 </div>
             </div>
@@ -89,27 +72,19 @@
             <div class="col-12 col-lg-4 offset-lg-8">
                 <div class="cart-total-area mt-70">
                     <div class="cart-page-heading">
-                        <h5>Cart total</h5>
+                        <h5>Tổng giỏ hàng</h5>
                     </div>
                     <ul class="cart-total-chart">
-                        @{
-                            decimal total = 0;
-                            foreach (var item in Model)
-                            {
-                                total += item.TotalPrice;
-                            }
-                        }
-                        <li><span>Subtotal</span> <span>@total.ToString("N0") đ</span></li>
-                        <li><span>Shipping</span> <span>Free</span></li>
-                        <li><span><strong>Total</strong></span> <span><strong>@total.ToString("N0") đ</strong></span></li>
+                        <li><span>Tạm tính</span> <span>@total.ToString("N0") đ</span></li>
+                        <li><span>Phí vận chuyển</span> <span>Miễn phí</span></li>
+                        <li><span><strong>Tổng cộng</strong></span> <span><strong>@total.ToString("N0") đ</strong></span></li>
                     </ul>
                     @if (Model.Any())
                     {
-                        <a asp-controller="Checkout" asp-action="Index" class="btn karl-checkout-btn">Proceed to checkout</a>
+                        <a asp-controller="Checkout" asp-action="Index" class="btn karl-checkout-btn">Tiến hành đặt hàng</a>
                     }
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- ****** Cart Area End ****** -->
